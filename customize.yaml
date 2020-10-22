@@ -9,7 +9,7 @@ switch.kitcen:
   hidden: true
 
 script.radio538:
-    friendly_name: Start Playing
+    friendly_name: Start Playing Radio
     icon: mdi:play
 
 script.radioparadise:
@@ -17,7 +17,7 @@ script.radioparadise:
     icon: mdi:play
 
 script.stopmusic:
-    friendly_name: Start Playing
+    friendly_name: Stop Playing
     icon: mdi:stop
     
 switch.zone_1:
