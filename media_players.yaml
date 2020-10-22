@@ -1,0 +1,23 @@
+- platform: yamaha
+  host: !secret media_player_host
+  source_ignore:
+    - "AUX"
+    - "AUDIO1"
+    - "AUDIO2"
+    - "AUDIO3"
+  source_names:
+    HDMI1: "Vizo TV"
+    HDMI2: "Roku" 
+    HDMI3: "ChromeCast"
+    HDMI4: "TBA"
+    AUDIO4: "Phono"
+#    zone_ignore:
+#      - "Zone_2"
+#    zone_names:
+#      Main_Zone: "Living Room"
+
+- platform: universal
+  name: radio_paradise
+  entity: media_player.all_speakers
+  media_content_id: 'https://stream.radioparadise.com/aac-128'
+  media_content_type: music

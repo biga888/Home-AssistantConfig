@@ -1,0 +1,142 @@
+# living room plug
+- platform: mqtt
+  name: "Living Room Plug 1"
+  state_topic: "stat/living_room_plug_1/RESULT"
+  value_template: "{{ value_json.POWER }}"
+  command_topic: "cmnd/living_room_plug_1/POWER"
+  availability_topic: "tele/living_room_plug_1/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: false
+
+- platform: mqtt
+  name: "Air Conditioner"
+  state_topic: "stat/air_conditioner/RESULT"
+  value_template: "{{ value_json.POWER }}"
+  command_topic: "cmnd/air_conditioner/POWER"
+  availability_topic: "tele/air_conditioner/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: false
+
+- platform: mqtt
+  name: "Bedroom Plug 1"
+  state_topic: "stat/bedroom_plug_1/RESULT"
+  value_template: "{{ value_json.POWER }}"
+  command_topic: "cmnd/bedroom_plug_1/POWER"
+  availability_topic: "tele/bedroom_plug_1/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: false
+
+- platform: mqtt
+  name: "Washing Machine Plug 1"
+  state_topic: "stat/washing_machine_plug_1/RESULT"
+  value_template: "{{ value_json.POWER }}"
+  command_topic: "cmnd/washing_machine_plug_1/POWER"
+  availability_topic: "tele/washing_machine_plug_1/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: false
+  
+- platform: mqtt
+  name: "Ender5"
+  state_topic: "stat/Ender5/RESULT"
+  value_template: "{{ value_json.POWER }}"
+  command_topic: "cmnd/Ender5/POWER"
+  availability_topic: "tele/Ender5/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: false
+  
+- platform: template
+  switches:
+  # ZONE 1 MEDIA SWITCH
+    zone_1:
+      value_template: "{{ is_state('media_player.yamaha_receiver', 'on') }}"
+      turn_on:
+        service: media_player.turn_on
+        entity_id: media_player.yamaha_receiver
+      turn_off:
+        service: media_player.turn_off
+        entity_id: media_player.yamaha_receiver
+  # TV HARMONY ACTIVITY
+    plex:
+      value_template: "{{ is_state_attr('remote.hub', 'current_activity', 'Plex') }}"
+      turn_on:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'Plex'
+      turn_off:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'PowerOff'
+   # youtube HARMONY ACTIVITY
+    youtube:
+      value_template: "{{ is_state_attr('remote.hub', 'current_activity', 'YouTube') }}"
+      turn_on:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'YouTube'
+      turn_off:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'PowerOff'        
+  # Stereo HARMONY ACTIVITY
+    stereo:
+      value_template: "{{ is_state_attr('remote.hub', 'current_activity', 'Stereo') }}"
+      turn_on:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'Stereo'
+      turn_off:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'PowerOff'   
+   # turntable HARMONY ACTIVITY
+    turntable:
+      value_template: "{{ is_state_attr('remote.hub', 'current_activity', 'Turntable') }}"
+      turn_on:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'Turntable'
+      turn_off:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'PowerOff'   
+   # appletv HARMONY ACTIVITY
+    appletv:
+      value_template: "{{ is_state_attr('remote.hub', 'current_activity', 'Apple TV') }}"
+      turn_on:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'Apple TV'
+      turn_off:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'PowerOff'          

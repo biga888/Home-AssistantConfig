@@ -1,0 +1,109 @@
+- platform: group
+  name: Kitchen 
+  entities:
+    - light.kitchen_light_1
+    - light.sengled_e11_g13_6bd51d03_level_on_off
+
+- platform: group
+  name: Basement 
+  entities:
+    - light.sengled_e11_g13_a3023603_level_on_off
+    - light.sengled_e11_g13_3ae43503_level_on_off
+    - light.sengled_e11_g13_cf103603_level_on_off
+    - light.basement_light_4
+
+- platform: group
+  name: Bedroom 
+  entities:
+    - light.night_light_1
+    - light.night_light_2
+    - light.bedroom_light
+    - light.sengled_e11_g13_7f4f0d03_level_on_off
+    
+- platform: group
+  name: Master Bathroom 
+  entities:
+    - light.sengled_e11_g13_f4ea1d03_level_on_off
+    - light.sengled_e11_g13_c41a1e03_level_on_off
+    - light.sengled_e11_g13_6a351e03_level_on_off  
+    
+# bathroom
+- platform: mqtt
+  name: "Bathroom Light"
+  unique_id: "bathroom_light_1"
+  state_topic: "stat/bathroom1/POWER"
+  command_topic: "cmnd/bathroom1/POWER"
+  availability_topic: "tele/bathroom1/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: false
+
+# backroom1
+- platform: mqtt
+  name: "Backroom Light"
+  unique_id: "backroom_light_1"
+  state_topic: "stat/backroom1/POWER"
+  command_topic: "cmnd/backroom1/POWER"
+  availability_topic: "tele/backroom1/LWT"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: false
+  
+- platform: switch
+  name: Kitchen Light 1
+  entity_id: switch.kitchen_light_1
+
+ 
+- platform: mqtt
+  name: "Bedroom Light"
+  unique_id: "bedroom_light_1"
+  command_topic: "cmnd/bedroom_fan/power1"
+  state_topic: "stat/bedroom_fan/POWER1"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+  optimistic: false
+  
+- platform: mqtt
+  name: "Basement Light 4"
+  unique_id: "basement_light_4"
+  command_topic: "cmnd/basement_light_4/power"
+  state_topic: "stat/basement_light_4/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+  
+- platform: mqtt
+  name: "Den Light"
+  unique_id: "den_light_1"
+  command_topic: "cmnd/den_light/power"
+  state_topic: "stat/den_light/POWER"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  retain: false
+  
+- platform: mqtt
+  name: "Dining Room"
+  unique_id: "diningroom_light_1"
+  state_topic: "stat/dining_room_light/POWER"
+  command_topic: "cmnd/dining_room_light/POWER"
+  availability_topic: "tele/dining_room_light/LWT"
+  brightness_state_topic: "stat/dining_room_light/RESULT"
+  brightness_command_topic: "cmnd/dining_room_light/Dimmer"
+  brightness_scale: 100
+  brightness_value_template: "{{ value_json.Dimmer }}"
+  qos: 1
+  payload_on: "ON"
+  payload_off: "OFF"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+  retain: false

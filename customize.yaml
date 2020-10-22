@@ -1,0 +1,82 @@
+cover.garage_door:
+  device_class: garage
+  friendly_name: Garage Door
+  homebridge_cover_type: garage_door
+  google_assistant: true
+  google_assistant_type: switch
+
+switch.kitcen:
+  hidden: true
+
+script.radio538:
+    friendly_name: Start Playing
+    icon: mdi:play
+
+script.radioparadise:
+    friendly_name: Start Playing
+    icon: mdi:play
+
+script.stopmusic:
+    friendly_name: Start Playing
+    icon: mdi:stop
+    
+switch.zone_1:
+  friendly_name: Zone One
+  icon: mdi:numeric-1-box
+switch.zone_2:
+  friendly_name: Zone Two
+  icon: mdi:numeric-2-box
+switch.pc:
+  friendly_name: Computer
+  icon: mdi:desktop-classic
+switch.roku:
+  friendly_name: Roku
+  icon: mdi:television-box
+switch.plex:
+  friendly_name: Plex
+  icon: mdi:plex
+switch.youtube:
+  friendly_name: YouTube
+  icon: mdi:youtube
+switch.stereo:
+  friendly_name: Stereo
+  icon: mdi:google-home
+switch.turntable:
+  friendly_name: Turntable
+  icon: mdi:record-player
+switch.appletv:
+  friendly_name: Apple TV
+  icon: mdi:apple
+        
+#sensor.sengled_e11_g13_031e1ac4_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_033610cf_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_03349b18_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_030c8995_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_033602a3_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_0335e43a_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_031deaf4_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_031e356a_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_030be9b2_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_030c6cc0_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_031dd56b_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_030c9e91_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_030d4e2e_1_1794:
+#  hidden: true
+#sensor.sengled_e11_g13_030d4f7f_1_1794:
+#  hidden: true
+#group.all_automations:
+#  hidden: false
+#zwave.unknown_node_2:
+#  is_failed: true

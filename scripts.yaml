@@ -1,0 +1,20 @@
+radioparadise:
+  alias: Play Radio Paradise
+  icon: "mdi:play"
+  sequence:
+  - service: media_player.play_media
+    data:
+      media_content_id: Radio Paradise
+      media_content_type: routine
+    entity_id: media_player.den_echo_dot
+  mode: single
+stopmusic:
+  alias: Stop playing music on Alexa
+  icon: "mdi:stop"
+  sequence:
+  - service: media_player.play_media
+    data:
+      media_content_id: stop playing music
+      media_content_type: routine
+    entity_id: media_player.den_echo_dot
+  mode: single

@@ -1,0 +1,159 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+http:
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+  ip_ban_enabled: true
+  login_attempts_threshold: 10
+
+tts:
+  - platform: google_translate
+    cache: true
+    cache_dir: /tmp/tts
+    time_memory: 300
+    base_url: !secret base_url
+    service_name: google_say
+
+homeassistant:
+  customize: !include customize.yaml
+  packages: !include_dir_named packages # package setup
+  
+frontend:
+  themes: !include_dir_merge_named themes
+
+google:
+  client_id: !secret google_client_id 
+  client_secret: !secret google_client_secret
+  
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+fan: !include fans.yaml
+cover: !include covers.yaml
+sensor: !include sensors.yaml
+switch: !include switches.yaml
+light: !include lights.yaml
+device_tracker: !include device_tracker.yaml
+input_number: !include input_number.yaml
+media_player: !include media_players.yaml
+# binary_sensor: !include_binary_sensors.yaml
+zone: !include zones.yaml
+
+
+
+#zha_map:
+
+envisalink:
+  host: !secret envisalink_ip
+  panel_type: DSC
+  user_name: !secret envisalink_user
+  password: !secret envisalink_password
+  code: !secret envisalink_code
+  port: !secret envisalink_port
+  evl_version: 4
+  keepalive_interval: 60
+  zonedump_interval: 30
+  timeout: 10
+  panic_type: Police
+  zones:
+    1:
+      name: 'Front Door'
+      type: 'opening'
+    2:
+      name: 'Upper Motion'
+      type: 'motion'
+    3:
+      name: 'Patio Door'
+      type: 'opening'
+    4:
+      name: 'Kitchen Motion'
+      type: 'motion'
+    5:
+      name: 'Computer Room Window'
+      type: 'opening'
+    6:
+      name: 'Garage Door'
+      type: 'opening'
+      
+  partitions:
+    1:
+      name: 'Home Alarm'
+      
+#recorder:
+#    purge_keep_days: 5
+
+logger:
+  default: info
+  logs: 
+    homeassistant.core: critical 
+    custom_components.my_integration: critical
+
+binary_sensor:
+  - platform: wyzesense
+    device: Auto
+
+octoprint:
+  host: !secret octoprint_host
+  api_key: !secret octoprint_api_key
+  name: MONSTER
+  number_of_tools: 4
+  sensors:
+    monitored_conditions:
+      - Current State
+      - Temperatures
+      - Job Percentage
+      - Time Remaining
+ 
+camera:
+  - platform: mjpeg
+    name: OctoPrint
+    still_image_url: !secret octoprint_still_image_url
+    mjpeg_url: !secret octoprint_mjpeg_url
+    
+zha:
+  database_path: /config/zigbee.db
+
+homekit:
+  filter:
+    include_domains:
+      - light
+      - cover
+    exclude_entities:
+      - sensor.adrian_s_echo_dot_next_reminder
+      - sensor.adrian_s_2nd_echo_dot_next_alarm
+      - sensor.adrian_s_2nd_echo_dot_next_timer
+      - sensor.adrian_s_2nd_echo_dot_next_reminder
+      - media_player.all_speakers_2
+      
+cloud:
+  
+ios:
+  push:
+    categories:
+      - name: Garage1
+        identifier: 'garage1'
+        actions:
+          - identifier: 'CLOSE_DOOR'
+            title: 'Close Garage Door'
+            activationMode: 'background'
+            authenticationRequired: no
+            destructive: yes
+            behavior: 'default'
+            
+map:
+
+sun:
+
+wemo:
+
+  
+spotify:
+  client_id: !secret client_id 
+  client_secret: !secret client_secret
+
+spotcast:
+  sp_dc: !secret sp_dc
+  sp_key: !secret sp_key
+
+############## EOF #####################

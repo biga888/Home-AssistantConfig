@@ -1,0 +1,40 @@
+- id: '1591819360390'
+  name: Sunset
+  entities:
+    light.hue_lightstrip_plus_1:
+      brightness: 25
+      effect: none
+      effect_list:
+      - colorloop
+      - random
+      friendly_name: Fireplace Lights
+      hs_color:
+      - 254.795
+      - 28.627
+      max_mireds: 500
+      min_mireds: 153
+      rgb_color:
+      - 200
+      - 182
+      - 255
+      state: 'on'
+      supported_features: 63
+      xy_color:
+      - 0.286
+      - 0.242
+- id: '1592323283422'
+  name: test
+  entities: {}
+- id: '1596771953834'
+  name: New Scene
+  entities:
+    light.sengled_e11_g13_c41a1e03_level_on_off:
+      friendly_name: Master Bathroom Light 2
+      off_brightness:
+      state: 'off'
+      supported_features: 41
+    light.sengled_e11_g13_f4ea1d03_level_on_off:
+      friendly_name: Master Bathroom Light 1
+      off_brightness:
+      state: 'off'
+      supported_features: 41

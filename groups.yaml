@@ -1,0 +1,136 @@
+#################################################################
+## Groups
+#################################################################
+    
+Household:
+  name: Humans
+  entities:
+   - device_tracker.adrians_iphone
+#  - group.house_guest
+
+      
+garage_door:
+  name: Garage Door
+  icon: mdi:garage
+  entities: 
+    - cover.garage_door
+    - light.sengled_e11_g13_030c8995_1
+
+den:
+  name: Den
+  entities:
+    - light.sengled_e11_g13_030be9b2_1
+    - light.sengled_e11_g13_030c6cc0_1
+
+bedroom:
+  name: Bedroom
+  entities:
+    - light.sengled_e11_g13_030d4f7f_1
+    - light.night_light_1
+    - light.night_light_2
+    - light.bedroom_light
+#    - switch.bedroom_plug_1
+#    - fan.bedroom_fan
+
+hallway:
+  name: Hallway
+  entities:
+    - light.sengled_e11_g13_030c9e91_1
+    - switch.hallway_plug_1
+    
+entrance:
+  name: Entrance
+  entities:
+    - light.entrance_light_1
+    - light.sengled_e11_g13_030d4e2e_1
+    - lock.yale_yrd210_pb_db_02fb714c_1_257      # defined in configuration.yaml to show lock status
+    - sensor.yale_yrd210_pb_db_02fb714c_1_1
+    
+front_door:
+  name: Front Door
+  entities:
+    - lock.yale_yrd210_pb_db_02fb714c_1_257      # defined in configuration.yaml to show lock status
+    - sensor.yale_yrd210_pb_db_02fb714c_1_1
+
+washerpanel:
+  name: Washer
+  entities:
+    - sensor.washer_state
+    - sensor.washer_voltage
+    - sensor.washer_watts
+    - sensor.washer_amps
+   # - sensor.washer_energy_today
+   # - sensor.washer_energy_yesterday
+   # - sensor.washer_signal
+
+multi_sensor_1_panel:
+  name: Multi Sensor 
+  entities:
+    - sensor.vision_security_zp3111_multisensor_4in1_relative_humidity
+    - sensor.vision_security_zp3111_multisensor_4in1_luminance
+    - sensor.vision_security_zp3111_multisensor_4in1_temperature
+    - sensor.vision_security_zp3111_multisensor_4in1_sourcenodeid
+    - sensor.vision_security_zp3111_multisensor_4in1_power_management
+    - sensor.vision_security_zp3111_multisensor_4in1_system
+    - sensor.vision_security_zp3111_multisensor_4in1_emergency
+    - sensor.vision_security_zp3111_multisensor_4in1_clock
+    - sensor.vision_security_zp3111_multisensor_4in1_burglar
+    - sensor.vision_security_zp3111_multisensor_4in1_alarm_type
+    - sensor.vision_security_zp3111_multisensor_4in1_alarm_level
+    
+
+
+power_plug_panel:
+  name: Living Room Plug 1
+  entities:
+    - sensor.living_room_plug_1_voltage
+    - sensor.living_room_plug_1_watts
+    - sensor.living_room_plug_1_amps
+    - sensor.living_room_plug_1_energy_today
+
+bathroom:
+  name: Bathroom
+  entities:
+    - light.bathroom_light
+
+backroom:
+  name: Backroom
+  entities:
+    - light.backroom_light
+    
+kitchen:
+  name: Kitchen 
+  entities:
+    - light.kitchen_light_1
+    - light.sengled_e11_g13_031dd56b_1
+    
+dining_room:
+  name: Dining Room 
+  entities:
+    - light.dining_room_light_1
+
+living_room:
+  name: Living Room
+  entities:
+    - switch.living_room_plug_1
+    - light.living_room_light_1
+
+master_bathroom:
+  name: Master Bathroom
+  entities:
+    - light.sengled_e11_g13_031deaf4_1
+    - light.sengled_e11_g13_031e1ac4_1
+    - light.sengled_e11_g13_031e356a_1
+
+basement:
+  name: Basement
+  entities:
+    - light.sengled_e11_g13_0335e43a_1
+    - light.sengled_e11_g13_033602a3_1
+    - light.sengled_e11_g13_033610cf_1
+    - light.sengled_e11_g13_03349b18_1
+
+# collected here but hidden in the customize yaml
+
+
+

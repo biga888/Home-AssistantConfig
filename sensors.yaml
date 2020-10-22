@@ -1,0 +1,270 @@
+- platform: systemmonitor
+  resources:
+    - type: disk_use_percent
+      arg: /home
+    - type: memory_free
+
+- platform: template
+  sensors:
+    bathroom_motion:
+      friendly_name: 'Bathroom Motion'
+      value_template: >-
+          {%- if is_state("sensor.vision_security_zp3111_multisensor_4in1_burglar", "0") -%}
+              No
+          {%- else -%}
+              Yes
+          {%- endif -%}
+
+- platform: template
+  sensors:
+    harmony_activity:
+      value_template: >
+        {% if is_state("remote.hub", 'on') %}
+          {{ states.remote.hub.attributes.current_activity }}
+        {% else %}
+          PowerOff
+        {% endif %}
+          
+# living room plug 1 - fan
+#- platform: template
+#  sensors:
+#    mailbox_battery:
+#      friendly_name: 'Mailbox Sensor Battery'
+#      value_template: "{{ state_attr('binary_sensor.wyzesense_777e961f', 'battery_level') }}"
+#      unit_of_measurement: '%'
+#      device_class: battery
+
+#- platform: template
+#  sensors:
+#    frontdoor_battery:
+#      friendly_name: 'Front Door Sensor Battery'
+#      value_template: "{{ state_attr('binary_sensor.wyzesense_777e951b', 'battery_level') }}"
+#      unit_of_measurement: '%'
+#      device_class: battery
+
+#- platform: template
+#  sensors:
+#    patiodoor_battery:
+#      friendly_name: 'Patio Door Sensor Battery'
+#      value_template: "{{ state_attr('binary_sensor.wyzesense_777e9566', 'battery_level') }}"
+#      unit_of_measurement: '%'
+#      device_class: battery
+
+# platform: template
+ # sensors:
+#    nonedoor_battery:
+#      friendly_name: 'None Door Sensor Battery'
+#      value_template: "{{ state_attr('binary_sensor.wyzesense_777e9621', 'battery_level') }}"
+#      unit_of_measurement: '%'
+#      device_class: battery
+ 
+#- platform: template
+#  sensors:
+#    den_motion_battery:
+#      friendly_name: 'Den Motion Battery'
+#      value_template: "{{ state_attr('binary_sensor.wyzesense_777f1cd6', 'battery_level') }}"
+#      unit_of_measurement: '%'
+#      device_class: battery
+ 
+#- platform: template
+#  sensors:
+#    panel_motion_battery:
+#      friendly_name: 'Panel Motion Battery'
+#      value_template: "{{ state_attr('binary_sensor.wyzesense_777e1aa9', 'battery_level') }}"
+#      unit_of_measurement: '%'
+#      device_class: battery
+
+- platform: mqtt
+  name: "Washer State"
+  state_topic: "hass/state/washer"
+  icon: mdi:washing-machine
+
+- platform: mqtt
+  name: "Washer Watts"
+  state_topic: "tele/washing_machine_plug_1/SENSOR"
+  value_template: "{{value_json['ENERGY'].Power}}"
+  qos: 2
+  unit_of_measurement : "W"
+  icon: mdi:flash-circle
+  availability_topic: "tele/washing_machine_plug_1/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+ 
+- platform: mqtt
+  name: "Washer Voltage"
+  state_topic: "tele/washing_machine_plug_1/SENSOR"
+  value_template: "{{value_json['ENERGY'].Voltage }}"
+  qos: 2
+  unit_of_measurement : "V"
+  icon: mdi:flash-circle
+  availability_topic: "tele/washing_machine_plug_1/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+ 
+- platform: mqtt
+  name: "Washer Amps"
+  state_topic: "tele/washing_machine_plug_1/SENSOR"
+  value_template: "{{value_json['ENERGY'].Current }}"
+  qos: 2
+  unit_of_measurement : "A"
+  icon: mdi:flash-circle
+  availability_topic: "tele/washing_machine_plug_1/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+ 
+- platform: mqtt
+  name: "Washer Energy Today"
+  state_topic: "tele/washing_machine_plug_1/SENSOR"
+  value_template: "{{value_json['ENERGY'].Today }}"
+  qos: 2
+  unit_of_measurement : "kWh"
+  availability_topic: "tele/washing_machine_plug_1/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+ 
+- platform: mqtt
+  name: "Washer Energy Yesterday"
+  state_topic: "tele/washing_machine_plug_1/SENSOR"
+  value_template: "{{value_json['ENERGY'].Yesterday }}"
+  qos: 2
+  unit_of_measurement : "kWh"
+  availability_topic: "tele/sonoff_s31_2/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+
+- platform: mqtt
+  state_topic: "tele/washing_machine_plug_1/STATE"
+  name: "Washer Signal"
+  unit_of_measurement: "%"
+  value_template: "{{value_json['Wifi'].RSSI }}"
+  availability_topic: "tele/sonoff_s31_2/LWT"
+  qos: 1
+  payload_available: "Online"
+  payload_not_available: "Offline"
+
+# Ender5  
+- platform: mqtt
+  name: "Ender5 Plug Watts"
+  state_topic: "tele/Ender5/SENSOR"
+  value_template: "{{value_json['ENERGY'].Power }}"
+  qos: 2
+  unit_of_measurement : "W"
+  icon: mdi:flash-circle
+  availability_topic: "tele/Ender5/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+
+- platform: mqtt
+  name: "Ender5 Voltage"
+  state_topic: "tele/Ender5/SENSOR"
+  value_template: "{{value_json['ENERGY'].Voltage }}"
+  qos: 2
+  unit_of_measurement : "V"
+  icon: mdi:flash-circle
+  availability_topic: "tele/Ender5/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+
+- platform: mqtt
+  name: "Ender5 Amps"
+  state_topic: "tele/Ender5/SENSOR"
+  value_template: "{{value_json['ENERGY'].Current }}"
+  qos: 2
+  unit_of_measurement : "A"
+  icon: mdi:flash-circle
+  availability_topic: "tele/Ender5/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+
+- platform: mqtt
+  name: "Ender5g Energy Today"
+  state_topic: "tele/Ender5/SENSOR"
+  value_template: "{{value_json['ENERGY'].Today }}"
+  qos: 2
+  unit_of_measurement : "kWh"
+  availability_topic: "tele/Ender5/LWT"
+  payload_available: "Online"
+  payload_not_available: "Offline"
+
+
+#- platform: template
+#  sensors:
+#    weather_temperature:
+#      friendly_name: "Weather Temperature"
+#      unit_of_measurement: 'degrees'
+#      value_template: "{{ state_attr('weather.home', 'temperature') }}"
+      
+
+#- platform: template
+#  sensors:
+#    someone_home:
+#      friendly_name: 'Is someone home?'
+#      entity_id: device_tracker.kitty
+#      value_template: '{% if states("device_tracker.kitty") != "home" %}false{% else %}true{% endif %}'
+
+
+# - platform: sonarr
+  # api_key: c77e2584bc7341c9b179901ef704aaf5
+  # host: 192.168.42.149
+
+
+#- platform: sonarr_upcoming_media
+#  api_key: c77e2584bc7341c9b179901ef704aaf5
+#  host: 192.168.42.149
+#  port: 8989
+#  days: 3
+#  ssl: false
+#  max: 10
+      
+#- platform: plex_recently_added
+#  name: Recently Added Movies # will create sensor.recently_added_movies
+#  token: nYnjjFrp2Vf2-C9xu6gi
+#  host: 192.168.42.149
+#  port: 32400
+#  ssl: true
+#  section_types:
+#  - movie
+
+# - platform: plex_recently_added
+#  name: Recently Added TV  # will create sensor.recently_added_tv
+#  token: nYnjjFrp2Vf2-C9xu6gi
+#  host: 192.168.42.149
+#  port: 32400
+#  ssl: true
+#  section_types:
+#  - show
+
+#- platform: darksky
+#  api_key: 949f0beb63533e8af38098da12e3909b
+#  forecast:
+#    - 1
+#    - 2
+#    - 3
+#    - 4
+#    - 5
+#  hourly_forecast:
+#    - 0
+#    - 1
+#  monitored_conditions:
+#    - icon
+#    - summary
+#    - nearest_storm_distance
+#    - nearest_storm_bearing
+#    - humidity
+#    - temperature
+#    - temperature_high
+#    - temperature_low
+#    - apparent_temperature
+#    - apparent_temperature_high
+#    - apparent_temperature_low
+#    - wind_speed
+#    - wind_bearing
+#    - precip_type
+#    - precip_probability
+#    - precip_accumulation
+#    - precip_intensity
+#    - precip_intensity_max
+#    - uv_index
+#    - daily_summary
+#    - pressure
+#    - visibility

@@ -1,0 +1,13 @@
+- platform: mqtt
+  name: "Garage Door"
+  state_topic: "stat/garage/POWER2"
+  command_topic: "cmnd/garage/POWER1"
+  payload_open: "ON"
+  payload_close: "ON"
+  payload_stop: "ON"
+  state_open: "OFF"
+  state_closed: "ON"
+  optimistic: false
+  qos: 0
+  # retain: false
+  

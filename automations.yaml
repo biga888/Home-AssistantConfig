@@ -1,0 +1,469 @@
+- id: '1562721049899'
+  alias: 'Send Message - Garage '
+  trigger:
+  - entity_id: cover.garage_door
+    platform: state
+    to: open
+  condition: []
+  action:
+  - data:
+      data:
+        action_data:
+          entity_id: cover.garage_door
+        push:
+          badge: 0
+          category: garage1
+      message: The garage door is open
+      title: Garage Door Notification
+    service: notify.mobile_app_oreo
+  - data: {}
+    entity_id: light.sengled_e11_g13_95890c03_level_on_off
+    service: light.turn_on
+  initial_state: true
+- id: e87f13c2c61f489a84ecc7e759a60a4f
+  alias: Washer State - Start
+  trigger:
+  - above: '5'
+    entity_id: sensor.washer_watts
+    for:
+      seconds: 4
+    platform: numeric_state
+  condition:
+  - condition: template
+    value_template: '{{ states.sensor.washer_state.state != ''Washing'' }}'
+  action:
+  - data:
+      payload: Washing
+      retain: 'true'
+      topic: hass/state/washer
+    service: mqtt.publish
+  - data:
+      message: Washing started. {{now().strftime("%Y/%m/%d-%H:%M:%S")}}
+      title: Washing Machine
+    service: notify.notify
+- id: 39977ce2c996434895fe9c7cf0448068
+  alias: Washer State - Idle
+  trigger:
+  - below: '4'
+    entity_id: sensor.washer_watts
+    for: 0:06:00
+    platform: numeric_state
+  action:
+  - data:
+      payload: Idle
+      retain: 'true'
+      topic: hass/state/washer
+    service: mqtt.publish
+  - data:
+      entity_id: media_player.living_room_speaker
+      message: Washing Machine is now done and turned off.
+    service: tts.google_say
+  - data:
+      message: Washing done. {{now().strftime("%Y/%m/%d-%H:%M:%S")}}
+      title: Washing Machine
+    service: notify.mobile_app_kitty
+  mode: single
+- alias: Power state on HA start-up
+  trigger:
+    platform: homeassistant
+    event: start
+  action:
+  - service: mqtt.publish
+    data:
+      topic: cmnd/sonoffs/state
+      payload: ''
+  - service: mqtt.publish
+    data:
+      topic: cmnd/sonoffs/POWER
+  - service: mqtt.publish
+    data:
+      topic: cmnd/sonoffs/POWER2
+  - service: mqtt.publish
+    data:
+      topic: cmnd/sonoffs/POWER3
+  id: 5a3a7cb7d85641b8bbc9e9b8563a3ba7
+- id: '1563584350224'
+  alias: 'Turn on Fans '
+  trigger:
+  - above: '23.5'
+    entity_id: sensor.zp3111_multisensor_4in1_air_temperature
+    platform: numeric_state
+  condition: []
+  action:
+  - data:
+      entity_id: switch.living_room_plug_1
+    service: switch.turn_on
+  - data:
+      entity_id: light.backroom_light
+    service: light.turn_on
+  - data:
+      payload: 2
+      topic: cmnd/bedroom_fan/FanSpeed
+    service: mqtt.publish
+  - data:
+      message: Its gettin Warm
+      title: Fans have just turned on at home
+    service: notify.mobile_app_kitty
+  - data:
+      entity_id: switch.bedroom_plug_1
+    service: switch.turn_on
+  mode: single
+- id: '1563585258990'
+  alias: Turn off garage light
+  trigger:
+  - entity_id: cover.garage_door
+    for: 00:05:00
+    from: open
+    platform: state
+    to: closed
+  condition: []
+  action:
+  - data:
+      entity_id: light.sengled_e11_g13_030c8995_1
+    service: light.turn_off
+- id: '1563586342713'
+  alias: Turn off Fans
+  trigger:
+  - below: '23.9'
+    entity_id: sensor.zp3111_multisensor_4in1_air_temperature
+    platform: numeric_state
+  condition: []
+  action:
+  - data:
+      entity_id: switch.living_room_plug_1
+    service: switch.turn_off
+  - data:
+      payload: 0
+      topic: cmnd/bedroom_fan/FanSpeed
+    service: mqtt.publish
+  - data:
+      entity_id: light.backroom_light
+    service: light.turn_off
+  - data:
+      entity_id: switch.bedroom_plug_1
+    service: switch.turn_off
+  mode: single
+- id: '1563723968737'
+  alias: Lock up when no humans home
+  trigger:
+  - entity_id: group.household
+    for: 00:10:00
+    from: home
+    platform: state
+    to: not_home
+  condition: []
+  action:
+  - device_id: 23488cff123742ad9d90a92ae9007b40
+    domain: lock
+    entity_id: lock.yale_yrd210_pb_db_4c71fb02_door_lock
+    type: lock
+  - data:
+      entity_id: all
+    service: light.turn_off
+  - data: {}
+    entity_id: alarm_control_panel.home_alarm
+    service: alarm_control_panel.alarm_arm_away
+  mode: single
+- id: '1563724300609'
+  alias: Open Up when a human comes home
+  trigger:
+  - entity_id: group.household
+    for: 0:01:00
+    from: not_home
+    platform: state
+    to: home
+  condition: []
+  action:
+  - device_id: 23488cff123742ad9d90a92ae9007b40
+    domain: lock
+    entity_id: lock.yale_yrd210_pb_db_4c71fb02_door_lock
+    type: unlock
+  - data: {}
+    entity_id: alarm_control_panel.home_alarm
+    service: alarm_control_panel.alarm_disarm
+  mode: single
+- id: '1567723448320'
+  alias: Close Garage After 20 Minutes
+  trigger:
+  - entity_id: cover.garage_door
+    for: 00:20:00
+    from: closed
+    platform: state
+    to: open
+  condition:
+  - condition: state
+    entity_id: sensor.someone_home
+    state: 'false'
+  action:
+  - data: {}
+    entity_id: cover.garage_door
+    service: cover.close_cover
+  mode: single
+- id: '1572323049561'
+  alias: You have mail
+  description: Mailbox binary sensor
+  trigger:
+  - entity_id: binary_sensor.wyzesense_777e951b
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      message: You have mail. {{now().strftime("%Y/%m/%d-%H:%M:%S")}}
+      title: Mailbox Notification
+    service: notify.mobile_app_kitty
+  - data:
+      message: You have mail. {{now().strftime("%Y/%m/%d-%H:%M:%S")}}
+      title: Mailbox Notification
+    service: persistent_notification.create
+  - service: tts.google_say
+    data:
+      entity_id: media_player.living_room_speaker
+      message: You have mail
+  mode: single
+- id: '1573689345127'
+  alias: Front Door Lock Battery Warning
+  description: ''
+  trigger:
+  - below: '20'
+    entity_id: sensor.yale_yrd210_pb_db_4c71fb02_power
+    platform: numeric_state
+  action:
+  - data:
+      message: Front Door Sensor Lock has < 20% Battery
+      title: Front Door Lock Battery Low
+    service: persistent_notification.create
+  - data:
+      message: Front Door Sensor Lock has < 20% Battery
+      title: Front Door Lock Battery Low
+    service: notify.mobile_app_kitty
+- id: '1574976878097'
+  alias: Turn on Entrance Light
+  description: ''
+  trigger:
+  - device_id: 3052de27bca94feabbd769ec8c280405
+    domain: lock
+    entity_id: lock.yale_yrd210_pb_db_02fb714c_1_257
+    platform: device
+    type: unlocked
+  condition: []
+  action:
+  - device_id: bca2c53cec24439d82d054bd5e8f6f5d
+    domain: light
+    entity_id: light.entrance
+    type: turn_on
+- id: '1585590666717'
+  alias: Turn on Den Light when motion detected
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.wyzesense_777f1cd6
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.den_light
+    service: light.turn_on
+  mode: single
+- id: '1585590666718'
+  alias: Turn off Den light 15 minutes after last movement
+  trigger:
+  - entity_id: binary_sensor.wyzesense_777f1cd6
+    for: 0:15:00
+    platform: state
+    to: 'off'
+  action:
+  - data: {}
+    entity_id: light.den_light
+    service: light.turn_off
+  mode: single
+- id: '1585590666719'
+  alias: Turn on Master Bathroom Light when motion detected
+  description: ''
+  trigger:
+  - entity_id: binary_sensor.wyzesense_777e1aa9
+    from: 'off'
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.sengled_e11_g13_6a351e03_level_on_off,light.sengled_e11_g13_c41a1e03_level_on_off,light.sengled_e11_g13_f4ea1d03_level_on_off
+    service: light.turn_on
+- id: '1585590666720'
+  alias: Turn off Master Bathroom light 5 minutes after last movement
+  trigger:
+  - entity_id: binary_sensor.wyzesense_777e1aa9
+    for: 0:05:00
+    platform: state
+    to: 'off'
+  action:
+  - data: {}
+    entity_id: light.sengled_e11_g13_6a351e03_level_on_off,light.sengled_e11_g13_c41a1e03_level_on_off,light.sengled_e11_g13_f4ea1d03_level_on_off
+    service: light.turn_off
+- id: '1585590666721'
+  alias: Turn on Bathroom Light when motion detected
+  description: ''
+  trigger:
+  - entity_id: sensor.bathroom_motion
+    from: 'No'
+    platform: state
+    to: 'Yes'
+  condition: []
+  action:
+  - data:
+      entity_id: light.bathroom_light
+    service: light.turn_on
+  mode: single
+- id: '1585590666722'
+  alias: Turn off Bathroom light 5 minutes after last movement
+  trigger:
+  - entity_id: sensor.bathroom_motion
+    for: 0:05:00
+    from: 'Yes'
+    platform: state
+    to: 'No'
+  action:
+  - data:
+      entity_id: light.bathroom_light
+    service: light.turn_off
+  mode: single
+- id: '1588611341444'
+  alias: Turn on the lights when the sun is set
+  description: ''
+  trigger:
+  - event: sunset
+    platform: sun
+  condition: []
+  action:
+  - brightness_pct: 25
+    device_id: 8365b11bf1df45e08fe8142c45ec9359
+    domain: light
+    entity_id: light.fireplace
+    type: turn_on
+  - data: {}
+    entity_id: light.living_room
+    service: light.turn_on
+  mode: single
+- id: '1596771759903'
+  alias: turn off sunset
+  description: ''
+  trigger:
+  - at: '21:37'
+    platform: time
+  condition: []
+  action:
+  - device_id: 8365b11bf1df45e08fe8142c45ec9359
+    domain: light
+    entity_id: light.fireplace
+    type: turn_off
+  - data: {}
+    entity_id: light.living_room
+    service: light.turn_off
+  mode: single
+- id: '1596772129014'
+  alias: 9 pm on
+  description: ''
+  trigger:
+  - at: '21:02'
+    platform: time
+  condition: []
+  action:
+  - brightness_pct: 100
+    device_id: 8e5f2c25abea46fda24816af042d7144
+    domain: light
+    entity_id: light.sengled_e11_g13_f4ea1d03_level_on_off
+    type: turn_on
+  - data: {}
+    entity_id: light.den_light
+    service: light.turn_on
+  mode: single
+- id: '1596773259283'
+  alias: 9:18 pm off
+  description: ''
+  trigger:
+  - at: '21:18'
+    platform: time
+  condition: []
+  action:
+  - device_id: 8e5f2c25abea46fda24816af042d7144
+    domain: light
+    entity_id: light.sengled_e11_g13_f4ea1d03_level_on_off
+    type: turn_off
+  - data: {}
+    entity_id: light.den_light
+    service: light.turn_off
+  mode: single
+- id: '1596774326500'
+  alias: 10:09 on
+  description: ''
+  trigger:
+  - at: '22:09'
+    platform: time
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.entrance
+    service: light.turn_on
+  - data: {}
+    entity_id: light.kitchen_light_1
+    service: light.turn_on
+  mode: single
+- id: '1596774404512'
+  alias: 10:45 off
+  description: ''
+  trigger:
+  - at: '22:45'
+    platform: time
+  condition: []
+  action:
+  - data: {}
+    entity_id: light.entrance
+    service: light.turn_off
+  - data: {}
+    entity_id: light.kitchen_light_1
+    service: light.turn_off
+  mode: single
+- id: '1600738663245'
+  alias: Disarm Alarm when door unlocked
+  description: ''
+  trigger:
+  - entity_id: lock.yale_yrd210_pb_db_4c71fb02_door_lock
+    from: locked
+    platform: state
+    to: unlocked
+  condition: []
+  action:
+  - data: {}
+    entity_id: alarm_control_panel.home_alarm
+    service: alarm_control_panel.alarm_disarm
+  mode: single
+- id: yamaha_media_to_slider  
+  alias: Zone 1 Volume (Media to Slider)
+  trigger:
+  - entity_id: media_player.yamaha_receiver
+    platform: state
+  condition:
+    - condition: template
+      value_template: '{% set converted = ( -1.0 + trigger.to_state.attributes.volume_level
+      | float ) * 100.0 | round(1) %} {{ converted != states(''input_number.yamaha_receiver'')| float }}'
+#   - condition: template
+#     value_template: '{% set converted = ( -1.0 + trigger.to_state.attributes.volume_level | float ) * 100.0 | round(0.0) %}
+#       {{ converted != states(''input_number.yamaha_receiver'') | float }}'
+  action:
+    service: input_number.set_value
+    data_template:
+      value: '{{ ( ( -1.0 + trigger.to_state.attributes.volume_level | float ) * 100.0) | round(1) }}'
+      entity_id: input_number.yamaha_receiver
+- id: yamaha_slider_to_media
+  alias: Zone 1 Volume (Slider to Media)
+  trigger:
+  - entity_id: input_number.yamaha_receiver
+    platform: state
+  action:
+    service: media_player.volume_set
+    data_template:
+      volume_level: '{{ (1.0 + trigger.to_state.state | float / 100.0 )| round(1) }}'
+      entity_id: media_player.yamaha_receiver
