@@ -15,11 +15,12 @@
           category: garage1
       message: The garage door is open
       title: Garage Door Notification
-    service: notify.mobile_app_oreo
+    service: notify.mobile_app_adrians_iphone
   - data: {}
     entity_id: light.sengled_e11_g13_95890c03_level_on_off
     service: light.turn_on
   initial_state: true
+  mode: single
 - id: e87f13c2c61f489a84ecc7e759a60a4f
   alias: Washer State - Start
   trigger:
@@ -163,6 +164,9 @@
   - data: {}
     entity_id: alarm_control_panel.home_alarm
     service: alarm_control_panel.alarm_arm_away
+  - service: alarm_control_panel.alarm_arm_away
+    data: {}
+    entity_id: alarm_control_panel.alexa_guard_313be
   mode: single
 - id: '1563724300609'
   alias: Open Up when a human comes home
@@ -212,7 +216,7 @@
   - data:
       message: You have mail. {{now().strftime("%Y/%m/%d-%H:%M:%S")}}
       title: Mailbox Notification
-    service: notify.mobile_app_kitty
+    service: notify.mobile_app_adrians_iphone
   - data:
       message: You have mail. {{now().strftime("%Y/%m/%d-%H:%M:%S")}}
       title: Mailbox Notification
@@ -440,22 +444,21 @@
     entity_id: alarm_control_panel.home_alarm
     service: alarm_control_panel.alarm_disarm
   mode: single
-- id: yamaha_media_to_slider  
+- id: yamaha_media_to_slider
   alias: Zone 1 Volume (Media to Slider)
   trigger:
   - entity_id: media_player.yamaha_receiver
     platform: state
   condition:
-    - condition: template
-      value_template: '{% set converted = ( -1.0 + trigger.to_state.attributes.volume_level
-      | float ) * 100.0 | round(1) %} {{ converted != states(''input_number.yamaha_receiver'')| float }}'
-#   - condition: template
-#     value_template: '{% set converted = ( -1.0 + trigger.to_state.attributes.volume_level | float ) * 100.0 | round(0.0) %}
-#       {{ converted != states(''input_number.yamaha_receiver'') | float }}'
+  - condition: template
+    value_template: '{% set converted = ( -1.0 + trigger.to_state.attributes.volume_level
+      | float ) * 100.0 | round(1) %} {{ converted != states(''input_number.yamaha_receiver'')|
+      float }}'
   action:
     service: input_number.set_value
     data_template:
-      value: '{{ ( ( -1.0 + trigger.to_state.attributes.volume_level | float ) * 100.0) | round(1) }}'
+      value: '{{ ( ( -1.0 + trigger.to_state.attributes.volume_level | float ) * 100.0)
+        | round(1) }}'
       entity_id: input_number.yamaha_receiver
 - id: yamaha_slider_to_media
   alias: Zone 1 Volume (Slider to Media)
@@ -465,5 +468,37 @@
   action:
     service: media_player.volume_set
     data_template:
-      volume_level: '{{ (1.0 + trigger.to_state.state | float / 100.0 )| round(1) }}'
+      volume_level: '{{ (1.0 + trigger.to_state.state | float / 100.0 )| round(1)
+        }}'
       entity_id: media_player.yamaha_receiver
+- id: '1603755034761'
+  alias: alexa guard off
+  description: ''
+  trigger:
+  - entity_id: group.household
+    from: not_home
+    platform: state
+    to: home
+  condition:
+  - condition: state
+    entity_id: alarm_control_panel.alexa_guard_313be
+    state: armed_away
+  action:
+  - service: alarm_control_panel.alarm_disarm
+    entity_id: alarm_control_panel.alexa_guard_313be
+  mode: single
+  max: 10
+- id: '1604060489333'
+  alias: alexa guard on
+  description: ''
+  trigger:
+  - entity_id: group.household
+    from: home
+    platform: state
+    to: not_home
+  condition: []
+  action:
+  - service: alarm_control_panel.alarm_arm_away
+    data: {}
+    entity_id: alarm_control_panel.alexa_guard_313be
+  mode: single

@@ -1,6 +1,6 @@
 radioparadise:
   alias: Play Radio Paradise
-  icon: "mdi:play"
+  icon: mdi:play
   sequence:
   - service: media_player.play_media
     data:
@@ -10,11 +10,24 @@ radioparadise:
   mode: single
 stopmusic:
   alias: Stop playing music on Alexa
-  icon: "mdi:stop"
+  icon: mdi:stop
   sequence:
   - service: media_player.play_media
     data:
       media_content_id: stop playing music
       media_content_type: routine
     entity_id: media_player.den_echo_dot
+  mode: single
+radio_paradise_script:
+  alias: radio_paradise_script
+  sequence:
+  - service: script.radio_paradise_script
+    data:
+      all_speakers: all speakers
+      radio_string: all speakers radio paradise main mix
+  - service: media_player.play_media
+    data_template:
+      entity_id: media_player.livingroom_echo_plus
+      media_content_id: '{{radio_string}}'
+      media_content_type: TUNEIN
   mode: single

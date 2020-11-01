@@ -1,42 +1,42 @@
 # living room plug
-- platform: mqtt
-  name: "Living Room Plug 1"
-  state_topic: "stat/living_room_plug_1/RESULT"
-  value_template: "{{ value_json.POWER }}"
-  command_topic: "cmnd/living_room_plug_1/POWER"
-  availability_topic: "tele/living_room_plug_1/LWT"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  retain: false
-
-- platform: mqtt
-  name: "Air Conditioner"
-  state_topic: "stat/air_conditioner/RESULT"
-  value_template: "{{ value_json.POWER }}"
-  command_topic: "cmnd/air_conditioner/POWER"
-  availability_topic: "tele/air_conditioner/LWT"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  retain: false
-
-- platform: mqtt
-  name: "Bedroom Plug 1"
-  state_topic: "stat/bedroom_plug_1/RESULT"
-  value_template: "{{ value_json.POWER }}"
-  command_topic: "cmnd/bedroom_plug_1/POWER"
-  availability_topic: "tele/bedroom_plug_1/LWT"
-  qos: 1
-  payload_on: "ON"
-  payload_off: "OFF"
-  payload_available: "Online"
-  payload_not_available: "Offline"
-  retain: false
+#- platform: mqtt
+#  name: "Living Room Plug 1"
+#  state_topic: "stat/living_room_plug_1/RESULT"
+#  value_template: "{{ value_json.POWER }}"
+#  command_topic: "cmnd/living_room_plug_1/POWER"
+#  availability_topic: "tele/living_room_plug_1/LWT"
+#  qos: 1
+#  payload_on: "ON"
+#  payload_off: "OFF"
+#  payload_available: "Online"
+#  payload_not_available: "Offline"
+#  retain: false
+#
+#- platform: mqtt
+#  name: "Air Conditioner"
+#  state_topic: "stat/air_conditioner/RESULT"
+#  value_template: "{{ value_json.POWER }}"
+#  command_topic: "cmnd/air_conditioner/POWER"
+#  availability_topic: "tele/air_conditioner/LWT"
+#  qos: 1
+#  payload_on: "ON"
+#  payload_off: "OFF"
+#  payload_available: "Online"
+#  payload_not_available: "Offline"
+#  retain: false
+#
+#- platform: mqtt
+#  name: "Bedroom Plug 1"
+#  state_topic: "stat/bedroom_plug_1/RESULT"
+#  value_template: "{{ value_json.POWER }}"
+#  command_topic: "cmnd/bedroom_plug_1/POWER"
+#  availability_topic: "tele/bedroom_plug_1/LWT"
+#  qos: 1
+#  payload_on: "ON"
+#  payload_off: "OFF"
+#  payload_available: "Online"
+#  payload_not_available: "Offline"
+#  retain: false
 
 - platform: mqtt
   name: "Washing Machine Plug 1"

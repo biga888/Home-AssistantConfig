@@ -82,10 +82,10 @@ envisalink:
 #    purge_keep_days: 5
 
 logger:
-  default: info
+  default: debug
   logs: 
-    homeassistant.core: critical 
-    custom_components.my_integration: critical
+    homeassistant.core: debug 
+    custom_components.my_integration: debug
 
 binary_sensor:
   - platform: wyzesense
