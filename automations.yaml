@@ -502,3 +502,29 @@
     data: {}
     entity_id: alarm_control_panel.alexa_guard_313be
   mode: single
+- id: '1604685566842'
+  alias: Turn on the lights when the sun is set
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunset
+  condition: []
+  action:
+  - type: turn_on
+    device_id: 47b8c99fea39732e56d572b259b45111
+    entity_id: switch.front_door_light_1
+    domain: switch
+  mode: single
+- id: '1604685598759'
+  alias: 'Turn off the lights when the sun is rise '
+  description: ''
+  trigger:
+  - platform: sun
+    event: sunrise
+  condition: []
+  action:
+  - type: turn_off
+    device_id: 47b8c99fea39732e56d572b259b45111
+    entity_id: switch.front_door_light_1
+    domain: switch
+  mode: single

@@ -59,6 +59,9 @@
   name: Kitchen Light 1
   entity_id: switch.kitchen_light_1
 
+- platform: switch
+  name: Front Door Light 1
+  entity_id: switch.front_door_light_1
  
 - platform: mqtt
   name: "Bedroom Light"

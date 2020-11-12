@@ -89,7 +89,7 @@
           entity_id: remote.hub
           activity: 'PowerOff'
    # youtube HARMONY ACTIVITY
-    youtube:
+    videostream:
       value_template: "{{ is_state_attr('remote.hub', 'current_activity', 'YouTube') }}"
       turn_on:
         service: remote.turn_on
@@ -139,4 +139,16 @@
         service: remote.turn_on
         data:
           entity_id: remote.hub
-          activity: 'PowerOff'          
+          activity: 'PowerOff'
+    chromecast:
+      value_template: "{{ is_state_attr('remote.hub', 'current_activity', 'Chrome Cast') }}"
+      turn_on:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'Chrome Cast'
+      turn_off:
+        service: remote.turn_on
+        data:
+          entity_id: remote.hub
+          activity: 'PowerOff'            

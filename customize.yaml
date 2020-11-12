@@ -5,11 +5,18 @@ cover.garage_door:
   google_assistant: true
   google_assistant_type: switch
 
-switch.kitcen:
+switch.kitchen_switch_1:
   hidden: true
 
+switch.front_door_light_1:
+  hidden: true
+  
 script.radio538:
-    friendly_name: Start Playing Radio
+  friendly_name: Start Playing Radio
+  icon: mdi:play
+      
+script.radiotest:
+    friendly_name: Radio Test
     icon: mdi:play
 
 script.radioparadise:
@@ -35,7 +42,7 @@ switch.roku:
 switch.plex:
   friendly_name: Plex
   icon: mdi:plex
-switch.youtube:
+switch.videostream:
   friendly_name: YouTube
   icon: mdi:youtube
 switch.stereo:
@@ -47,6 +54,9 @@ switch.turntable:
 switch.appletv:
   friendly_name: Apple TV
   icon: mdi:apple
+switch.chromecast:
+  friendly_name: Chrome Cast
+  icon: mdi:cast
         
 #sensor.sengled_e11_g13_031e1ac4_1_1794:
 #  hidden: true

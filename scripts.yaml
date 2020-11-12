@@ -7,6 +7,9 @@ radioparadise:
       media_content_id: Radio Paradise
       media_content_type: routine
     entity_id: media_player.den_echo_dot
+  - service: switch.turn_on
+    data: {}
+    entity_id: switch.stereo
   mode: single
 stopmusic:
   alias: Stop playing music on Alexa
@@ -21,13 +24,11 @@ stopmusic:
 radio_paradise_script:
   alias: radio_paradise_script
   sequence:
-  - service: script.radio_paradise_script
-    data:
-      all_speakers: all speakers
-      radio_string: all speakers radio paradise main mix
   - service: media_player.play_media
     data_template:
       entity_id: media_player.livingroom_echo_plus
-      media_content_id: '{{radio_string}}'
+      media_content_id: '{{ station }}'
       media_content_type: TUNEIN
   mode: single
+  variables:
+    station: radio paradise main mix all speakers
